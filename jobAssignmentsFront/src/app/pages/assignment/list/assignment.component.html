@@ -1,0 +1,125 @@
+<mat-card>
+  <h1>Asignaciones</h1>
+</mat-card>
+
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <form>
+          <div fxLayout="row wrap" fxFlexAlign="center" class="form-row">
+
+              <mat-form-field>
+                <mat-select  placeholder="Nombre usuario" #nameUser [formControl]="filterAssignmentForm.get('nameUser')">
+                  <mat-option>
+                    <ngx-mat-select-search placeholderLabel="buscar" noEntriesFoundLabel="Sin resultados"
+                      [formControl]="userNameControl">
+                    </ngx-mat-select-search>
+                    <mat-option *ngFor="let option of filteredUserName | async">
+                      {{option.u_name}}
+                    </mat-option>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+          <div align="right">
+            <button class="button-space" mat-raised-button color="primary" (click)="searchData()"
+              type="button">Buscar</button>
+            <button mat-mini-fab color="primary" class="mh-search button-space" matTooltip="Crear Usuario"
+              type="button" (click)="createEdit('','')">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-mini-fab color="warn" matTooltip="Limpiar filtros" (click)="onReset()">
+              <mat-icon>delete_sweep</mat-icon>
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<mat-card>
+  <mat-card-content>
+    <div class="responsive-table">
+      <mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef>Id Asignación</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.a_id}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef>Descripción</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.a_description}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="assignmentDate">
+          <mat-header-cell *matHeaderCellDef>Fecha asignación</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.a_assignment_date}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="assignmentHour">
+          <mat-header-cell *matHeaderCellDef>Hora de asignación</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.a_assignment_hour}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="estimatedCompletionDate">
+          <mat-header-cell *matHeaderCellDef>Fecha estimada terminación</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.a_estimated_completion_date}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="assignedAssesor">
+          <mat-header-cell *matHeaderCellDef>Asesor asignado</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.a_assessor_name}}
+          </mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-mini-fab aria-label="Mostrar asignación" class="circle-buttons mx-auto" color="primary">
+              <mat-icon class="actions" (click)="show(element)" class="pointer">
+                visibility
+              </mat-icon>
+            </button>
+
+            <button mat-mini-fab aria-label="Editar asignación" class="circle-buttons mx-auto" color="primary">
+              <mat-icon class="actions" (click)="createEdit(element,'editar')" matToolTip="Editar asignación">
+                edit
+              </mat-icon>
+            </button>
+
+            <button mat-mini-fab color="warn" aria-label="Eliminar asignación" class="circle-buttons mx-auto">
+              <mat-icon class="actions" (click)="deleteAssignment(element.a_id)" matTooltip="Eliminar asignación"
+                class="pointer">
+                delete forever icon
+              </mat-icon>
+            </button>
+
+          </mat-cell>
+
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row;columns:displayedColumns;"></mat-row>
+      </mat-table>
+      <div *ngIf="dataSource.data.length===0" align="center">
+        No hay registros
+      </div>
+      <mat-paginator [pageSizeOptions]="[1,2]" showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,55 @@
+<mat-card-title>{{title}} Asignación</mat-card-title>
+<div>
+  <div fxFlex.gt-sm="100" fxFlex="100">
+    <form autocomplete="off" [formGroup]="assignmentForm">
+      <mat-card-content align="center">
+
+          <div>
+            <mat-form-field>
+              <textarea matInput
+              placeholder="Descripción:"
+              type="text"
+              #description
+              [formControl]="assignmentForm.get('description')"></textarea>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field>
+
+              <input matInput
+              #completionDate
+              placeholder="Fecha estimada de terminación:"
+              [matDatepicker]="picker"
+              [formControl]="assignmentForm.get('completionDate')">
+              <mat-datepicker-toggle matSuffix [for]="picker" class="resize-calendar-icon"></mat-datepicker-toggle>
+              <mat-datepicker #picker disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field>
+              <mat-select  placeholder="Asesor" #nameUser [formControl]="">
+                <mat-option>
+                  <ngx-mat-select-search placeholderLabel="buscar" noEntriesFoundLabel="Sin resultados"
+                    [formControl]="assignmentForm.get('userNameControl')">
+                  </ngx-mat-select-search>
+                  <mat-option *ngFor="let option of filteredUserNameArray | async">
+                    {{option.u_name}}
+                  </mat-option>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+      </mat-card-content>
+
+      <div mat-dialog-actions align="end">
+        <button mat-raised-button (click)="saveAssignment()" color="primary" type="submit" class="button-space">Guardar</button>
+        <button mat-raised-button (click)="onCancel()" color="warn" mat-dialog-close>Cancelar</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+

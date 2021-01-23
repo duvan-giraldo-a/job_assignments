@@ -1,0 +1,16 @@
+h1{
+  color:#1E88E5;
+  font-size: 29px;
+}
+mat-card{
+  margin-bottom: 10px;
+}
+.button-space{
+  margin:5px;
+}
+.table-column-space{
+  margin-left:10px;
+}
+mat-form-field{
+  width: 100%;
+}

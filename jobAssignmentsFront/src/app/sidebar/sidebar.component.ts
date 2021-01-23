@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {ChangeDetectorRef} from '@angular/core';
 
@@ -10,28 +10,32 @@ import {ChangeDetectorRef} from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  mobileQuery: MediaQueryList;
+  shouldRun=true;
+  toggled:boolean;
+  wrapperId:any;
+  constructor() {
+  }
 
-  fillerNav = ['Reportar horas', 'Asignar tareas'];
+  ngOnInit(): void {
+    this.toggled=false;
+    this.wrapperId=document.getElementById("wrapper");
+  }
 
-  fillerContent = [];
-
-  private _mobileQueryListener: () => void;
-
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+  toggleSidebar(){
+    console.log(1);
+    if(this.toggled){
+      this.toggled=false;
+      this.wrapperId.className="";
+      console.log(this.toggled);
+    }
+    else{
+      this.toggled=true;
+      this.wrapperId.className="toggled";
+      console.log(this.toggled);
+    }
   }
 
   ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
-  }
-
-  //shouldRun = [/(^|\.)plnkr\.co$/, /(^|\.)stackblitz\.io$/].some(h => h.test(window.location.host));
-  shouldRun=true;
-
-  ngOnInit(): void {
   }
 
 }
